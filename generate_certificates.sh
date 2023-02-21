@@ -2,10 +2,18 @@
 
 # cf https://codeburst.io/mutual-tls-authentication-mtls-de-mystified-11fa2a52e9cf
 
-MY_ORG="my-org"
+# Organisation for CA Cert
+MY_ORG="Eurevia"
+
+# Hostname of the Server
 SERVER_NAME="localhost"
+SERVER_ALT_NAME="IP: 127.0.0.1"
+
+# Hostname or the Client
 CLIENT_NAME="clienthost"
-EXPIRATION_DELAY_DAYS=365
+
+# 100 ans
+EXPIRATION_DELAY_DAYS=36500
 
 CERTIFICATES_DIR=./certificates
 CERTIFICATES_CA_DIR=$CERTIFICATES_DIR/ca
@@ -40,6 +48,7 @@ openssl req \
   -new \
   -key $CERTIFICATES_SERVER_DIR/serverKey.pem \
   -subj "/CN=${SERVER_NAME}" \
+  -addext "subjectAltName=${SERVER_ALT_NAME}" \
   -out $CERTIFICATES_SERVER_DIR/server.csr
 
 # generate server.crt (in PEM format)
@@ -76,3 +85,10 @@ openssl x509 \
   -CAcreateserial \
   -days 365 \
   -out $CERTIFICATES_CLIENT_DIR/clientCrt.pem
+
+
+
+
+echo "======== Check Server CSR =========="
+
+openssl req -text -noout -verify -in $CERTIFICATES_SERVER_DIR/server.csr 

@@ -1,13 +1,12 @@
 #!/bin/bash
 
-# cf https://codeburst.io/mutual-tls-authentication-mtls-de-mystified-11fa2a52e9cf
 
 # Organisation for CA Cert
 MY_ORG="Eurevia"
 
 # Hostname of the Server
 SERVER_NAME="localhost"
-SERVER_ALT_NAME="IP: 127.0.0.1"
+SERVER_ALT_NAME="DNS:example.com,DNS:localhost,IP: 127.0.0.1"
 
 # Hostname or the Client
 CLIENT_NAME="clienthost"
@@ -15,7 +14,7 @@ CLIENT_NAME="clienthost"
 # 100 ans
 EXPIRATION_DELAY_DAYS=36500
 
-CERTIFICATES_DIR=./certificates
+CERTIFICATES_DIR=./certificates2
 CERTIFICATES_CA_DIR=$CERTIFICATES_DIR/ca
 CERTIFICATES_SERVER_DIR=$CERTIFICATES_DIR/server
 CERTIFICATES_CLIENT_DIR=$CERTIFICATES_DIR/client
@@ -48,7 +47,6 @@ openssl req \
   -new \
   -key $CERTIFICATES_SERVER_DIR/serverKey.pem \
   -subj "/CN=${SERVER_NAME}" \
-  -addext "subjectAltName=${SERVER_ALT_NAME}" \
   -out $CERTIFICATES_SERVER_DIR/server.csr
 
 # generate server.crt (in PEM format)
@@ -57,6 +55,7 @@ openssl x509 \
   -in $CERTIFICATES_SERVER_DIR/server.csr \
   -CA $CERTIFICATES_CA_DIR/caCrt.pem \
   -CAkey $CERTIFICATES_CA_DIR/ca.key \
+  -extfile <(printf "subjectAltName=${SERVER_ALT_NAME}")  \
   -CAcreateserial \
   -days $EXPIRATION_DELAY_DAYS \
   -out $CERTIFICATES_SERVER_DIR/serverCrt.pem

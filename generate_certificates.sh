@@ -6,7 +6,7 @@ MY_ORG="Eurevia"
 
 # Hostname of the Server
 SERVER_NAME="localhost"
-SERVER_ALT_NAME="DNS:example.com,DNS:localhost,IP: 127.0.0.1"
+SERVER_ALT_NAME="DNS:example.com,DNS:localhost,IP:127.0.0.1"
 
 # Hostname or the Client
 CLIENT_NAME="clienthost"
@@ -88,6 +88,6 @@ openssl x509 \
 
 
 
-echo "======== Check Server CSR =========="
+echo "======== Check Server PEM =========="
 
-openssl req -text -noout -verify -in $CERTIFICATES_SERVER_DIR/server.csr 
+openssl x509  -text  -in $CERTIFICATES_SERVER_DIR/serverCrt.pem

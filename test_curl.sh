@@ -1,1 +1,2 @@
+curl --cacert ./certificates/ca/caCrt.pem --cert ./certificates/client/clientCrt.pem --key ./certificates/client/clientKey.pem https://127.0.0.1:3000/
 curl --cacert ./certificates/ca/caCrt.pem --cert ./certificates/client/clientCrt.pem --key ./certificates/client/clientKey.pem https://localhost:3000/

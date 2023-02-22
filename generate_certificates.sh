@@ -35,17 +35,17 @@ openssl req \
   -nodes \
   -days $EXPIRATION_DELAY_DAYS \
   -subj "/CN=${MY_ORG}" \
-  -keyout $CERTIFICATES_CA_DIR/ca.key \
-  -out $CERTIFICATES_CA_DIR/caCrt.pem
+  -keyout $CERTIFICATES_CA_DIR/eureviaCA.key \
+  -out $CERTIFICATES_CA_DIR/eureviaCACert.pem
   
 # generate server key
 openssl genrsa \
-  -out $CERTIFICATES_SERVER_DIR/serverKey.pem 2048
+  -out $CERTIFICATES_SERVER_DIR/eureviaServKey.pem 2048
 
 # generate server.csr
 openssl req \
   -new \
-  -key $CERTIFICATES_SERVER_DIR/serverKey.pem \
+  -key $CERTIFICATES_SERVER_DIR/eureviaServKey.pem \
   -subj "/CN=${SERVER_NAME}" \
   -out $CERTIFICATES_SERVER_DIR/server.csr
 
@@ -53,24 +53,24 @@ openssl req \
 openssl x509 \
   -req \
   -in $CERTIFICATES_SERVER_DIR/server.csr \
-  -CA $CERTIFICATES_CA_DIR/caCrt.pem \
-  -CAkey $CERTIFICATES_CA_DIR/ca.key \
+  -CA $CERTIFICATES_CA_DIR/eureviaCACert.pem \
+  -CAkey $CERTIFICATES_CA_DIR/eureviaCA.key \
   -extfile <(printf "subjectAltName=${SERVER_ALT_NAME}")  \
   -CAcreateserial \
   -days $EXPIRATION_DELAY_DAYS \
-  -out $CERTIFICATES_SERVER_DIR/serverCrt.pem
+  -out $CERTIFICATES_SERVER_DIR/eureviaServCert.pem
 
 
 
 # generate client key (in pem format)
 
 openssl genrsa \
-  -out $CERTIFICATES_CLIENT_DIR/clientKey.pem 2048
+  -out $CERTIFICATES_CLIENT_DIR/eureviaClientKey.pem 2048
 
 # generate a client csr file
 openssl req \
   -new \
-  -key $CERTIFICATES_CLIENT_DIR/clientKey.pem \
+  -key $CERTIFICATES_CLIENT_DIR/eureviaClientKey.pem \
   -subj "/CN=${CLIENT_NAME}" \
   -out $CERTIFICATES_CLIENT_DIR/client.csr
 
@@ -79,15 +79,15 @@ openssl req \
 openssl x509 \
   -req \
   -in $CERTIFICATES_CLIENT_DIR/client.csr \
-  -CA $CERTIFICATES_CA_DIR/caCrt.pem \
-  -CAkey $CERTIFICATES_CA_DIR/ca.key \
+  -CA $CERTIFICATES_CA_DIR/eureviaCACert.pem \
+  -CAkey $CERTIFICATES_CA_DIR/eureviaCA.key \
   -CAcreateserial \
   -days 365 \
-  -out $CERTIFICATES_CLIENT_DIR/clientCrt.pem
+  -out $CERTIFICATES_CLIENT_DIR/eureviaClientCrt.pem
 
 
 
 
 echo "======== Check Server PEM =========="
 
-openssl x509  -text  -in $CERTIFICATES_SERVER_DIR/serverCrt.pem
+openssl x509  -text  -in $CERTIFICATES_SERVER_DIR/eureviaServCert.pem

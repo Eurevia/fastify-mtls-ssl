@@ -1,2 +1,5 @@
 node_modules
 .srl
+certificates/ca/*
+certificates/client/*
+certificates/server/*

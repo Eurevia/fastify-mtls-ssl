@@ -6,7 +6,7 @@ MY_ORG="Eurevia"
 
 # Hostname of the Server
 SERVER_NAME="localhost"
-SERVER_ALT_NAME="DNS:example.com,DNS:localhost,IP:127.0.0.1"
+SERVER_ALT_NAME="DNS:regate.local,DNS:localhost,IP:127.0.0.1,IP:192.168.200.1"
 
 # Hostname or the Client
 CLIENT_NAME="clienthost"

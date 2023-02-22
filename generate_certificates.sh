@@ -19,7 +19,7 @@ CERTIFICATES_CA_DIR=$CERTIFICATES_DIR/ca
 CERTIFICATES_SERVER_DIR=$CERTIFICATES_DIR/server
 CERTIFICATES_CLIENT_DIR=$CERTIFICATES_DIR/client
 
-rm -Rf CERTIFICATES_DIR
+rm -Rf $CERTIFICATES_DIR
 mkdir -p $CERTIFICATES_DIR
 mkdir -p $CERTIFICATES_CA_DIR
 mkdir -p $CERTIFICATES_SERVER_DIR
@@ -35,7 +35,7 @@ openssl req \
   -nodes \
   -days $EXPIRATION_DELAY_DAYS \
   -subj "/CN=${MY_ORG}" \
-  -keyout $CERTIFICATES_CA_DIR/eureviaCA.key \
+  -keyout $CERTIFICATES_CA_DIR/eureviaCAKey.pem \
   -out $CERTIFICATES_CA_DIR/eureviaCACert.pem
   
 # generate server key
@@ -54,7 +54,7 @@ openssl x509 \
   -req \
   -in $CERTIFICATES_SERVER_DIR/server.csr \
   -CA $CERTIFICATES_CA_DIR/eureviaCACert.pem \
-  -CAkey $CERTIFICATES_CA_DIR/eureviaCA.key \
+  -CAkey $CERTIFICATES_CA_DIR/eureviaCAKey.pem \
   -extfile <(printf "subjectAltName=${SERVER_ALT_NAME}")  \
   -CAcreateserial \
   -days $EXPIRATION_DELAY_DAYS \
@@ -80,10 +80,10 @@ openssl x509 \
   -req \
   -in $CERTIFICATES_CLIENT_DIR/client.csr \
   -CA $CERTIFICATES_CA_DIR/eureviaCACert.pem \
-  -CAkey $CERTIFICATES_CA_DIR/eureviaCA.key \
+  -CAkey $CERTIFICATES_CA_DIR/eureviaCAKey.pem \
   -CAcreateserial \
   -days 365 \
-  -out $CERTIFICATES_CLIENT_DIR/eureviaClientCrt.pem
+  -out $CERTIFICATES_CLIENT_DIR/eureviaClientCert.pem
 
 
 

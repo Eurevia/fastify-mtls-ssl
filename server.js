@@ -6,14 +6,13 @@ const fastify = require('fastify')({ logger: true,
   https: {
     requestCert: true,
     rejectUnauthorized: true,
-    key: fs.readFileSync("./certificates/server/serverKey.pem"),
-    cert: fs.readFileSync("./certificates/server/serverCrt.pem") ,
-    ca: [fs.readFileSync("./certificates/ca/caCrt.pem")]
-   
+    key: fs.readFileSync("./certificates/server/eureviaServKey.pem"),
+    cert: fs.readFileSync("./certificates/server/eureviaServCert.pem") ,
+    ca: [fs.readFileSync("./certificates/ca/eureviaCACert.pem")]
   }
+})
 
 
- })
 
 // Declare a route
 fastify.get('/', async (request, reply) => {

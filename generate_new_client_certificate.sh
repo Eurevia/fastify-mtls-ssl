@@ -1,0 +1,16 @@
+
+CERTIFICATES_DIR=./certificates
+CERTIFICATES_CA_DIR=$CERTIFICATES_DIR/ca
+CERTIFICATES_SERVER_DIR=$CERTIFICATES_DIR/server
+CERTIFICATES_CLIENT_DIR=$CERTIFICATES_DIR/client
+
+
+openssl x509 \
+  -req \
+  -in $CERTIFICATES_CLIENT_DIR/client.csr \
+  -CA $CERTIFICATES_CA_DIR/eureviaCACert.pem \
+  -CAkey $CERTIFICATES_CA_DIR/eureviaCAKey.pem \
+  -CAcreateserial \
+  -days 365 \
+  -out $CERTIFICATES_CLIENT_DIR/eureviaClientCertNew.pem
+
